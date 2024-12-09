@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block title %}EmpreGO! - Cadastrar Empresa{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1>Cadastrar Nova Empresa</h1>
+
+            {% if msg_erro %}
+                <div class="alert alert-danger" role="alert">
+                    {{ msg_erro }}
+                </div>
+            {% endif %}
+
+            <form action="/cadastrar_empresa" method="post" class="needs-validation" novalidate>
+                <div class="mb-3">
+                    <label for="nomeEmpresa" class="form-label">Nome da Empresa</label>
+                    <input type="text" class="form-control" id="nomeEmpresa" name="nomeEmpresa" required>
+                    <div class="valid-feedback">
+                        Muito bem!
+                    </div>
+                    <div class="invalid-feedback">
+                        Insira o nome da empresa.
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="cnpj" class="form-label">CNPJ</label>
+                    <input type="text" class="form-control" id="cnpj" name="cnpj" required>
+                    <div class="invalid-feedback">CNPJ inválido. Use o formato XX.XXX.XXX/XXXX-XX.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="telefone" class="form-label">Telefone</label>
+                    <input type="tel" class="form-control" id="telefone" name="telefone" required>
+                    <div class="invalid-feedback">Telefone inválido. Use o formato (XX) XXXXX-XXXX.</div>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">E-mail</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+                    <div class="valid-feedback">
+                        Muito bem!
+                    </div>
+                    <div class="invalid-feedback">
+                        Insira o E-mail da empresa.
+                    </div>
+                
+                <div class="mb-3">
+                    <label for="senha" class="form-label">Senha</label>
+                    <input type="password" class="form-control" id="senha" name="senha" required>
+                    <div class="valid-feedback">
+                        Muito bem!
+                    </div>
+                    <div class="invalid-feedback">
+                        Insira a senha da empresa.
+                    </div>
+                </div>
+            
+                <button type="submit" class="w-100 btn btn-primary">Cadastrar Empresa</button>
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<!-- Script de validação do BS -->
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
+</script>
+
+<!-- Script do Input Mask -->
+<script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/inputmask.min.js"></script>
+
+<!-- Script de configuração do Input Mask -->
+ <script>
+    Inputmask("999.999.999-99").mask(document.getElementById("cpf")); // Máscara para CPF
+    Inputmask("99.999.999/9999-99").mask(document.getElementById("cnpj")); //Máscara para CNPJ
+    
+    Inputmask("(99) 99999-9999").mask(document.getElementById("telefone")); // Telefone
+    
+    Inputmask("numeric", {
+            radixPoint: ",",
+            groupSeparator: ".",
+            digits: 2,
+            autoGroup: true,
+            rightAlign: false,
+            allowMinus: false,
+            prefix: "R$ "
+        }).mask(document.getElementById("salario")); // Salário
+
+ </script>
+ <script>
+    document.getElementById("form").addEventListener("submit", function (event) {
+        event.preventDefault(); // Impede o envio para validação
+        event.stopPropagation();
+
+        let form = this;
+        let isValid = true;
+
+        // Validações específicas
+        const cpfInput = document.getElementById("cpf");
+        const cnpjInput = document.getElementById("cnpj");
+        const telefoneInput = document.getElementById("telefone");
+        const emailInput = document.getElementById("email");
+        const salarioInput = document.getElementById("salario");
+
+        // Validação para CPF
+        if (!cpfInput.inputmask.isComplete()) {
+            isValid = false;
+            cpfInput.classList.remove("is-valid");
+            cpfInput.classList.add("is-invalid");
+        } else {
+            cpfInput.classList.remove("is-invalid");
+            cpfInput.classList.add("is-valid");
+        }
+
+        // Validação para CNPJ
+        if (!cnpjInput.inputmask.isComplete()) {
+            isValid = false;
+            cnpjInput.classList.remove("is-valid");
+            cnpjInput.classList.add("is-invalid");
+        } else {
+            cnpjInput.classList.remove("is-invalid");
+            cnpjInput.classList.add("is-valid");
+        }
+
+        // Validação para Telefone
+        if (!telefoneInput.inputmask.isComplete()) {
+            isValid = false;
+            telefoneInput.classList.remove("is-valid");
+            telefoneInput.classList.add("is-invalid");
+        } else {
+            telefoneInput.classList.remove("is-invalid");
+            telefoneInput.classList.add("is-valid");
+        }
+
+        // Validação para E-mail (nativa do navegador)
+        if (!emailInput.checkValidity()) {
+            isValid = false;
+            emailInput.classList.remove("is-valid");
+            emailInput.classList.add("is-invalid");
+        } else {
+            emailInput.classList.remove("is-invalid");
+            emailInput.classList.add("is-valid");
+        }
+
+        // Validação para Salário
+        if (!salarioInput.inputmask.isComplete()) {
+            isValid = false;
+            salarioInput.classList.remove("is-valid");
+            salarioInput.classList.add("is-invalid");
+        } else {
+            salarioInput.classList.remove("is-invalid");
+            salarioInput.classList.add("is-valid");
+        }
+
+
+        if (isValid) {
+            alert("Formulário enviado com sucesso!");
+            form.submit();
+        } else {
+            form.classList.add("was-validated");
+        }
+    });
+</script>
+
+{% endblock %}

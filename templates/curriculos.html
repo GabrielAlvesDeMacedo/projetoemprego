@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}EmpreGO! - Painel da Empresa{% endblock %}
+
+{% block content %}
+
+    <div class="row mt-4">
+        <h2 class="style-5 mb-3 text-success">Curriculos:</h2>
+        {% if curriculos %}
+            {% for curriculo in curriculos %}
+            <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ curriculo.nomeCandidato }}</h5>
+                    <p class="card-text">
+                    <li>
+                        {{ curriculo.telefoneCandidato }}-{{ curriculo.emailCandidato }}
+                    </li>
+                    <li>
+                     Curriculo: <br> 
+                        <a href="/download/{{curriculo.curriculo}}" class="download">Baixar</a> 
+                        <a href="/deletar_curriculo/{{curriculo.idCandidato}}" class="Deletar">Deletar</a>
+                      
+                      
+                    </li>
+                    </p>
+                </div>
+                </div>                  
+              </div>
+            {% endfor %}
+        {% else %}
+            <p>Nenhum curriculo foi enviado até o momento.</p>
+        {% endif %}
+    </div>
+
+{% endblock %}

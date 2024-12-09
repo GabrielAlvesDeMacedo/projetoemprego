@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block title %}EmpreGO! - Candidatar-se {% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1>Candidatar-se para Vaga</h1>
+
+            {% if msg_erro %} 
+                <div class="alert alert-danger" role="alert">
+                    {{ msg_erro }}
+                </div>
+            {% endif %}
+
+            <form action="/candidatar/{{ idVaga }}" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+                <div class="mb-3">
+                    <label for="nomeCandidato" class="form-label">Nome</label>
+                    <input type="text" class="form-control" id="nomeCandidato" name="nomeCandidato" required>
+                    <div class="invalid-feedback">
+                        Insira seu nome.
+                    </div>
+                </div>
+               
+                <div class="mb-3">
+                    <label for="emailCandidato" class="form-label">E-mail</label>
+                    <input type="text" class="form-control" id="emailCandidato" name="emailCandidato" required>
+                </div>
+                <div class="mb-3">
+                    <label for="telefoneCandidato" class="form-label">Telefone</label>
+                    <input type="text" class="form-control" id="telefoneCandidato" name="telefoneCandidato" required>
+                </div>
+                <div class="mb-3">
+                    <label for="curriculo" class="form-label">Enviar Curriculo</label>
+                    <input type="file" class="form-control" id="curriculo" name="curriculo" required>
+                </div>
+
+                <div class="mb-3 d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">Candidatar-se</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+     
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/inputmask.min.js"></script>
+<script>
+        Inputmask("numeric",
+            {
+                radixPoint: ",",
+                groupSeparator: ".",
+                digits: 2,
+                autoGroup: true,
+                rightAlign: false,
+                allowMinus: false,
+                prefix: "R$ "
+            }
+        ).mask(document.getElementById("salario"));
+</script>
+<script>
+(() => {
+    'use strict'
+  
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+  
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+  
+        form.classList.add('was-validated')
+      }, false)
+    })
+})()
+</script>
+{% endblock %}
